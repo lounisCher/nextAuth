@@ -8,6 +8,13 @@
       "when": 1728680706162,
       "tag": "0000_long_toad_men",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1728853492473,
+      "tag": "0001_typical_nomad",
+      "breakpoints": true
     }
   ]
 }
