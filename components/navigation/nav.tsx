@@ -7,10 +7,14 @@ import {LogIn} from 'lucide-react'
 export default async function Nav(){
     const session = await auth();
     return(
-        <header className='bg-slate-200 py-4 px-4'>
+        <header className='bg-slate-200 py-4 px-4 rounded-md my-4'>
             <nav>
                 <ul className='flex justify-between'>
-                    <li> Logo</li>
+                    <li>
+                        <Link href="/">
+                        Home
+                        </Link>
+                    </li>
                     {!session ?(
                         <li>
                             <Button asChild>
