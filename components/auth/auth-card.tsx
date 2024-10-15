@@ -1,4 +1,7 @@
 import React from 'react'
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '../ui/card'
+import Socials from './socials'
+import { BackButton } from './back-button'
 
 interface Props{
     children: React.ReactNode,
@@ -17,9 +20,25 @@ const AuthCard = ({
     showSocials,
 }: Props) => {
   return (
-    <div>
-      
-    </div>
+    <Card>
+        <CardHeader>
+            <CardTitle>{cardTitle}</CardTitle>
+        </CardHeader>
+        <CardContent>
+            {children}
+        </CardContent>
+        {showSocials && (
+            <CardFooter>
+                <Socials />
+            </CardFooter>
+        )}
+        <CardFooter>
+            <BackButton
+            href={backButtonHref} 
+            label={backButtonLabel}
+            />
+        </CardFooter>
+    </Card>
   )
 }
 
