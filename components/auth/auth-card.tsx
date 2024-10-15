@@ -22,7 +22,9 @@ const AuthCard = ({
   return (
     <Card>
         <CardHeader>
-            <CardTitle>{cardTitle}</CardTitle>
+            <CardTitle>
+                <p className='text-2xl font-bold'>{cardTitle}</p>
+            </CardTitle>
         </CardHeader>
         <CardContent>
             {children}
@@ -32,7 +34,7 @@ const AuthCard = ({
                 <Socials />
             </CardFooter>
         )}
-        <CardFooter>
+        <CardFooter className='flex items-center justify-center'>
             <BackButton
             href={backButtonHref} 
             label={backButtonLabel}

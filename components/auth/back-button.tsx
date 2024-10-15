@@ -6,7 +6,7 @@ import { Button } from "../ui/button"
 
 export const BackButton=({ href, label }:{href: string, label:string})=>{
     return(
-        <Button className="font-medium">
+        <Button className="font-medium w-2/3">
             <Link aria-label={label} href={href}>
             {label}
             </Link>
