@@ -15,6 +15,13 @@
       "when": 1728853492473,
       "tag": "0001_typical_nomad",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1729029642953,
+      "tag": "0002_nosy_wild_child",
+      "breakpoints": true
     }
   ]
 }

@@ -9,7 +9,9 @@ import { z } from "zod"
 import { Input } from "../ui/input"
 import { Button } from "../ui/button"
 import Link from "next/link"
-
+import { emailSignIn } from "@/server/actions/email-signin"
+import {useAction} from 'next-safe-action/hooks'
+import { cn } from "@/lib/utils"
 
 
 const LoginForm = () => {
@@ -22,8 +24,9 @@ const LoginForm = () => {
     }
   })
 
+  const {execute, status} = useAction(emailSignIn, {})
   const onSubmit =(values: z.infer<typeof LoginSchema>)=>{
-    console.log(values)
+    execute(values)
   }
 
   return (
@@ -80,7 +83,7 @@ const LoginForm = () => {
           <Link href="/auth/reset">Forgot your password</Link>
         </Button>
         </div>
-        <Button type="submit" className=" my-2 w-full">
+        <Button type="submit" className={cn('w-full', status === 'executing' ? 'animate-pulse':"")}>
           {"login"}
         </Button>
             </form>
