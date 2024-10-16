@@ -22,12 +22,17 @@ const LoginForm = () => {
       email:"",
       password: "",
     }
-  })
+  });
 
-  const {execute, status} = useAction(emailSignIn, {})
+  const {execute, status} = useAction(emailSignIn, {
+    onSuccess(data){
+      console.log(data)
+    }
+  });
+
   const onSubmit =(values: z.infer<typeof LoginSchema>)=>{
     execute(values)
-  }
+  };
 
   return (
     <AuthCard cardTitle="Welcome back!" 
