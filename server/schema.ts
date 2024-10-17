@@ -46,4 +46,16 @@ export const users = pgTable("user", {
       }),
     })
   )
+
+  export const emailTokens = pgTable("emailTokens",{
+    id: text("id").notNull(),
+    token: text("token").notNull(),
+    expires: timestamp("expires", {mode: "date"}).notNull(),
+  },
+  (vt)=>({
+    compoundKey: primaryKey({columns: [vt.id, vt.token]})
+  })
+)
+
+
    
