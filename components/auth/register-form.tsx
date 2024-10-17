@@ -12,6 +12,7 @@ import Link from "next/link"
 import {useAction} from 'next-safe-action/hooks'
 import { cn } from "@/lib/utils"
 import { useState } from "react"
+import { emailRegister } from "@/server/actions/email-register"
 
 
 const RegisterForm = () => {
@@ -27,7 +28,13 @@ const RegisterForm = () => {
 
   const [error, setError]=useState("");
 
-  const {execute, status} = useAction();
+  const {execute, status} = useAction(emailRegister,{
+      onSuccess(data){
+        if(data){
+          console.log(data)
+        }
+      }
+  });
 
   const onSubmit =(values: z.infer<typeof RegisterSchema>)=>{
     execute(values)
@@ -38,7 +45,10 @@ const RegisterForm = () => {
     backButtonHref="/auth/login" backButtonLabel="Already have an account ?"
     showSocials>
         <div>
-        <FormField
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)}>
+            <div>
+            <FormField
              control={form.control}
              name="name"
              render={({field}) => (
@@ -57,10 +67,7 @@ const RegisterForm = () => {
               <FormMessage />
             </FormItem>
           )}
-        />
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
-            <div>
+        />    
             <FormField
              control={form.control}
              name="email"
@@ -102,7 +109,7 @@ const RegisterForm = () => {
               <FormMessage />
             </FormItem>
           )}
-        />
+        />        
         <Button size={"sm"} variant={"link"} asChild>
           <Link href="/auth/reset">Forgot your password</Link>
         </Button>
