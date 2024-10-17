@@ -34,7 +34,8 @@ const RegisterForm = () => {
 
   const {execute, status} = useAction(emailRegister,{
       onSuccess(data){
-        console.log(data)
+        if(data.data?.error) setError(data.data.error)
+        if(data.data?.success) setSuccess(data.data.success);  
       }
   });
 

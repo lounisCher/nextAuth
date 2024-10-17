@@ -21,8 +21,8 @@ export const emailRegister = action.schema(RegisterSchema).action(async({ parsed
 
             await sendVerificationEmail(
 
-                verificationToken[0].token,
                 verificationToken[0].email,
+                verificationToken[0].token,
 
             );
 
@@ -38,8 +38,10 @@ export const emailRegister = action.schema(RegisterSchema).action(async({ parsed
      const verificationToken = await generateEmailVerificaitonToken(email);
 
      await sendVerificationEmail(
-        verificationToken[0].token,
+
         verificationToken[0].email,       
+        verificationToken[0].token,
+        
     );
      return {success: "Confirmation Email set"}
 });
