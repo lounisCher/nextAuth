@@ -36,6 +36,20 @@
       "when": 1729172623646,
       "tag": "0004_minor_the_hunter",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1729174581240,
+      "tag": "0005_cooing_power_pack",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1729175291790,
+      "tag": "0006_bouncy_payback",
+      "breakpoints": true
     }
   ]
 }

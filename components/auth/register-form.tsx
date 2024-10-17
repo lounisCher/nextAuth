@@ -13,6 +13,8 @@ import {useAction} from 'next-safe-action/hooks'
 import { cn } from "@/lib/utils"
 import { useState } from "react"
 import { emailRegister } from "@/server/actions/email-register"
+import FormSuccess from "./form-success"
+import FormError from "./form-error"
 
 
 const RegisterForm = () => {
@@ -27,12 +29,12 @@ const RegisterForm = () => {
   });
 
   const [error, setError]=useState("");
+  const [success, setSuccess]=useState("");
+
 
   const {execute, status} = useAction(emailRegister,{
       onSuccess(data){
-        if(data){
-          console.log(data)
-        }
+        console.log(data)
       }
   });
 
@@ -109,7 +111,9 @@ const RegisterForm = () => {
               <FormMessage />
             </FormItem>
           )}
-        />        
+        />    
+        <FormSuccess message={success}/>
+        <FormError message={error}/>    
         <Button size={"sm"} variant={"link"} asChild>
           <Link href="/auth/reset">Forgot your password</Link>
         </Button>

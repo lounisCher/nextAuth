@@ -5,6 +5,8 @@ import bcrypt from 'bcrypt'
 import { db } from "..";
 import { users } from "../schema";
 import { eq } from "drizzle-orm";
+import { generateEmailVerificaitonToken } from "./tokens";
+import { sendVerificationEmail } from "./email";
 const action = createSafeActionClient();
 
 export const emailRegister = action.schema(RegisterSchema).action(async({ parsedInput: { email, password, name } })=>{
@@ -14,10 +16,30 @@ export const emailRegister = action.schema(RegisterSchema).action(async({ parsed
         where: eq(users.email, email)
     })
     if(existingUser){
-        //if(!existingUser.emailVerified){
-            //const verificationToken = 
-        //}
+        if(!existingUser.emailVerified){
+            const verificationToken = await generateEmailVerificaitonToken(email);
+
+            await sendVerificationEmail(
+
+                verificationToken[0].token,
+                verificationToken[0].email,
+
+            );
+
+            return {success: 'Email Confirmation resent'}
+        }
+
         return {error: "Email already exist"}
     }
-    return {success:'yaaayyy'}
+     await db.insert(users).values({
+        email,
+        name,
+     })
+     const verificationToken = await generateEmailVerificaitonToken(email);
+
+     await sendVerificationEmail(
+        verificationToken[0].token,
+        verificationToken[0].email,       
+    );
+     return {success: "Confirmation Email set"}
 });
