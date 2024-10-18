@@ -14,7 +14,7 @@ export const sendVerificationEmail = async(email:string, token:string)=>{
       const {data, error} = await resend.emails.send({
         from:"onboarding@resend.dev",
         to:email,
-        subject:"Ecommerce - confirmation email",
+        subject:"Ecommerce- confirmation email",
         html:`<p>Click to <a href=${confirmLink}>confirm your email</a></p>`
       })
       if(error) return console.log(error)

@@ -12,9 +12,16 @@ import Link from "next/link"
 import { emailSignIn } from "@/server/actions/email-signin"
 import {useAction} from 'next-safe-action/hooks'
 import { cn } from "@/lib/utils"
+import { useState } from "react"
+import FormSuccess from "./form-success"
+import FormError from "./form-error"
+import { error } from "console"
 
 
 const LoginForm = () => {
+
+  const [error, setErrors] = useState("");
+  const [success, setSucess] = useState("");
 
   const form = useForm({
     resolver: zodResolver(LoginSchema),
@@ -84,6 +91,8 @@ const LoginForm = () => {
             </FormItem>
           )}
         />
+        <FormSuccess message={success} />
+        <FormError message={error} />
         <Button size={"sm"} variant={"link"} asChild>
           <Link href="/auth/reset">Forgot your password</Link>
         </Button>
