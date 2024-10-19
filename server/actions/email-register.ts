@@ -11,7 +11,6 @@ const action = createSafeActionClient();
 
 export const emailRegister = action.schema(RegisterSchema).action(async({ parsedInput: { email, password, name } })=>{
     const hashedPassword = await bcrypt.hash(password, 10)
-    console.log(hashedPassword);
     const existingUser= await db.query.users.findFirst({
         where: eq(users.email, email)
     })
@@ -34,6 +33,7 @@ export const emailRegister = action.schema(RegisterSchema).action(async({ parsed
      await db.insert(users).values({
         email,
         name,
+        password: hashedPassword,
      })
      const verificationToken = await generateEmailVerificaitonToken(email);
 

@@ -4,9 +4,10 @@ import { createSafeActionClient } from "next-safe-action";
 import { db } from "..";
 import { eq } from "drizzle-orm";
 import { users } from "../schema";
-import { generateEmailVerificaitonToken, getVerificationTokenByEmail } from "./tokens";
+import { generateEmailVerificaitonToken } from "./tokens";
 import { sendVerificationEmail } from "./email";
-import { signIn } from "next-auth/react";
+import { signIn } from "../auth";
+import { AuthError } from "next-auth";
 
 const action = createSafeActionClient();
 
@@ -21,7 +22,7 @@ export const emailSignIn= action.schema(LoginSchema).action(async({ parsedInput:
    if (existingUser?.email !== email){
     return {error: "Email is not found"}
    };
-
+   
    //check if user email is verified
 
    if(!existingUser.emailVerified){
@@ -42,13 +43,24 @@ export const emailSignIn= action.schema(LoginSchema).action(async({ parsedInput:
     redirectTo:'/'
    }
    )
-
     return {success: email};
 
     }catch(error){
-        console.log(error)
+        if(error instanceof AuthError){
+            switch(error.type){
+                case 'CredentialsSignin':
+                return {error: "Email or Password are not exact"}
+                case'AccessDenied':
+                return {error: error.message}
+                case 'OAuthSignInError':
+                    return {error: error.message}
+                default:
+                    return {error: 'something went wrong'}    
+            }
+        }
+        throw error
     }
-    
+
 
    
    

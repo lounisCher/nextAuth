@@ -1,7 +1,8 @@
+
 import EmailVerificationForm from '@/components/auth/email-verification-form'
 import React from 'react'
 
-const EmailVerificaion = () => {
+const EmailVerification = () => {
   return (
     <div>
       <EmailVerificationForm/>
@@ -9,4 +10,5 @@ const EmailVerificaion = () => {
   )
 }
 
-export default EmailVerificaion
+export default EmailVerification
+
