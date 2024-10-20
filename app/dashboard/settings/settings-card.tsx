@@ -33,8 +33,8 @@ const SettingCard = ({ session }: {
   session: Session }) => {
 
 
-      const [error, setError]=useState<string | null>("");
-      const [success, setSuccess]=useState<string | null>("");
+      const [error, setError]=useState<string | undefined>("");
+      const [success, setSuccess]=useState<string | undefined>("");
       const [avatarUploading, setAvatarUploading]=useState(false);
 
 
