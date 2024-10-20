@@ -89,21 +89,22 @@ export const generatePasswordResetToken = async(email:string)=>{
 
     try{
 
-        const token = crypto.randomUUID();
-    const expires= new Date(new Date().getTime()+3600 *1000);
+    const token = crypto.randomUUID();
+    const expires = new Date(new Date().getTime()+3600*1000);
     const existingToken = await getPasswordResetTokenByEmail(email)
     if(existingToken){
         await db.delete(passwordResetTokens).where(eq(passwordResetTokens.id, existingToken.id)
         )
     }
+    
     const passwordResetToken = await db.insert(passwordResetTokens).values({
         email,
         token,
         expires
     }).returning();
+    
 
-    return passwordResetToken;
-
+     return passwordResetToken;
     }catch(error){
         return null
     }

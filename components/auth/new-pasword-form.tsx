@@ -15,6 +15,8 @@ import FormSuccess from "./form-success"
 import FormError from "./form-error"
 import { NewPasswordSchema } from "@/type/password-schema"
 import { newPassword } from "@/server/actions/new-password"
+import { useSearchParams } from "next/navigation";
+
 
 
 const NewPasswordForm
@@ -22,6 +24,9 @@ const NewPasswordForm
 
   const [error, setErrors] = useState("");
   const [success, setSuccess] = useState("");
+
+  const token = useSearchParams().get('token');
+  
 
   const form = useForm<z.infer<typeof NewPasswordSchema>>({
     resolver: zodResolver(NewPasswordSchema),
@@ -38,7 +43,7 @@ const NewPasswordForm
   });
 
   const onSubmit =(values: z.infer<typeof NewPasswordSchema>)=>{
-    execute(values)
+    execute({password: values.password, token})
   };
 
   return (

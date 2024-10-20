@@ -4,6 +4,7 @@ import "./globals.css";
 
 import Nav from "@/components/navigation/nav";
 import { cn } from "@/lib/utils";
+import { ThemeProvider } from "@/components/providers/theme-provider";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -27,12 +28,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={cn('px-6 py-4 md:px-10 max-w-7xl mx-auto', `${geistSans.variable} ${geistMono.variable} antialiased`)}
       >
+        <ThemeProvider
+         attribute="class"
+         defaultTheme="system"
+         enableSystem>
         <Nav />
         {children}
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -27,8 +27,9 @@ export const reset = action.schema(ResetSchema).action(async({ parsedInput: {ema
 
     await sendPasswordResetEmail(
     passwordResetToken[0].email,
-    passwordResetToken[1].token    
+    passwordResetToken[0].token    
     )
+    
 
     return {success: "Reset Email sent"}
 

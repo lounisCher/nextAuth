@@ -55,7 +55,7 @@ const ResetForm
              render={({field}) => (
             <FormItem>
               <FormLabel>
-              <p>Password</p>
+              <p>Enter your Email</p>
               </FormLabel>
               <FormControl>
                 <Input
@@ -73,9 +73,6 @@ const ResetForm
         />
         <FormSuccess message={success} />
         <FormError message={error} />
-        <Button size={"sm"} variant={"link"} asChild>
-          <Link href="/auth/reset">Forgot your password</Link>
-        </Button>
         </div>
         <Button type="submit" className={cn('w-full', status === 'executing' ? 'animate-pulse':"")}>
           {"Reset password"}
