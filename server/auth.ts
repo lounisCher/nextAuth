@@ -13,43 +13,41 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   session: {strategy: "jwt"},
   callbacks:{
 
-    async session({session, token}){
-        if(session && token.sub){
-            session.user.id = token.sub
+    async session({ session, token }) {
+        if (session && token.sub) {
+          session.user.id = token.sub
         }
-        if(session.user && token.role){
-             session.user.role = token.role as string
+        if (session.user && token.role) {
+          session.user.role = token.role as string
         }
-        if(session.user){
-            session.user.isTwoFactorEnabled = token.isTwoFactorEnabled as boolean
-            session.user.name = token.name
-            session.user.email = token.email as string
-            session.user.isOAuth = token.isOAuth as boolean
-            session.user.image = token.image as string
+        if (session.user) {
+          session.user.isTwoFactorEnabled = token.isTwoFactorEnabled as boolean
+          session.user.name = token.name
+          session.user.email = token.email as string
+          session.user.isOAuth = token.isOAuth as boolean
+          session.user.image = token.image as string
         }
-        return session;
-
-    },
-
-    async jwt({token}){
-        if(!token.sub) return token;
+        return session
+      },
+      async jwt({ token }) {
+        if (!token.sub) return token
         const existingUser = await db.query.users.findFirst({
-            where: eq(users.id, token.sub)
+          where: eq(users.id, token.sub),
         })
-        if(!existingUser) return token;
-        const existingAccount = await db.query.users.findFirst({
-            where: eq(accounts.userId, existingUser.id)
+        if (!existingUser) return token
+        const existingAccount = await db.query.accounts.findFirst({
+          where: eq(accounts.userId, existingUser.id),
         })
+  
         token.isOAuth = !!existingAccount
         token.name = existingUser.name
         token.email = existingUser.email
         token.role = existingUser.role
         token.isTwoFactorEnabled = existingUser.twoFactorEnabled
         token.image = existingUser.image
-        return token;
-    }
-
-  },
+        return token
+      },
+    },
   providers: [
     Google({
         clientId: process.env.GOOGLE_CLIENT_ID!,

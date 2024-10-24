@@ -28,6 +28,9 @@ import Image from "next/image";
 import { Switch } from "@/components/ui/switch";
 import FormError from "@/components/auth/form-error";
 import FormSuccess from "@/components/auth/form-success";
+import { useAction } from "next-safe-action/hooks";
+import { Settings } from "lucide-react";
+import { setting } from "@/server/actions/settings";
 
 const SettingCard = ({ session }: { 
   session: Session }) => {
@@ -46,13 +49,24 @@ const SettingCard = ({ session }: {
       newPassword: undefined,
       name: session.user?.name || undefined,
       email: session.user?.email || undefined,
-      //isTwoFactorEnabled: session.user.isTwoFactorEnabled || undefined
+      isTwoFactorEnabled: session.user.isTwoFactorEnabled || undefined,
+      image: session.user?.image || undefined
     },
   });
 
+  const {execute, status} = useAction(setting, {
+    
+    onSuccess: (data)=>{
+      if(data.data?.success) setSuccess(data.data.success)
+      if(data.data?.error) setError(data.data.error)
+    },
+    onError: (error)=>{
+      setError('Something went wrong')
+    }
+  })
+   
   const onSubmit = (values: z.infer<typeof SettingSchema>) => {
-    //execute(values)
-    console.log(values);
+   execute(values)
   };
 
   return (
@@ -126,8 +140,9 @@ const SettingCard = ({ session }: {
                   <FormControl>
                     <Input
                       placeholder="**********"
+                      type="password"
                       {...field}
-                      disabled={status === "executing"}
+                      disabled={status === "executing" || session.user.isOAuth}
                     />
                   </FormControl>
 
@@ -143,9 +158,11 @@ const SettingCard = ({ session }: {
                   <FormLabel>New Password</FormLabel>
                   <FormControl>
                     <Input
+
+                      type="password"
                       placeholder="**********"
                       {...field}
-                      disabled={status === "executing"}
+                      disabled={status === "executing" || session.user.isOAuth}
                     />
                   </FormControl>
 
@@ -163,7 +180,10 @@ const SettingCard = ({ session }: {
                 Enable two factor Authentification for your account
               </FormDescription>
               <FormControl>
-                <Switch disabled={status==="executing"}/>
+                <Switch disabled={status==="executing" || session.user.isOAuth === true}
+                checked={field.value}
+                onCheckedChange={field.onChange}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
